@@ -20,6 +20,11 @@ Vue.use(VuejsDialog);
 
 import HomeComponent from './components/HomeComponent.vue';
 import CreateComponent from './components/CreateAndEditComponent.vue';
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
 
 const routes = [
   {

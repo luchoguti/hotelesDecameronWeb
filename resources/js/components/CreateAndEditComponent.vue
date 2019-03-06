@@ -124,14 +124,15 @@
       }
     },
     created() {
+      let loader = this.loading();
       this.hotel.ciudad = '';
-      let uri = '/api/ciudades';
+      let uri = 'https://hotelesdecameronweb.herokuapp.com/api/ciudades';
       this.axios.get(uri).then(async response => {
          this.ciudades = await response.data.data;
       });
       this.paramId=this.$route.params.id;
       if (typeof this.paramId !== "undefined") {
-        let uriParam = `/api/hotel/${this.paramId}`;
+        let uriParam = `https://hotelesdecameronweb.herokuapp.com/api/hotel/${this.paramId}`;
         this.axios.get(uriParam).then(async (response) => {
            let objResp= await response.data.data;
            this.hotel.nombre = objResp[0].nombre_ho;
@@ -153,12 +154,23 @@
         });
       }
       this.resetObj();
-      let uri_tipoHab = '/api/tipoHabitacion';
+      let uri_tipoHab = 'https://hotelesdecameronweb.herokuapp.com/api/tipoHabitacion';
       this.axios.get(uri_tipoHab).then(response => {
         this.tipoHab = response.data.data;
       });
+      loader.hide();
     },
     methods: {
+      loading(){
+        var app = this;
+        let loader = app.$loading.show({
+          // Optional parameters
+          container: app.fullPage ? null : app.$refs.formContainer,
+          canCancel: false,
+          onCancel: app.onCancel,
+        });
+        return loader;
+      },
       resetObj(){
         this.hotel_detalle.tipoAcomd = '';
         this.hotel_detalle.tipoHab = '';
@@ -196,16 +208,18 @@
       updateHotel(){
         if (!this.errors.length){
           $("html, body").animate({ scrollTop: 0 }, "slow");
+          let loader = this.loading();
           let uri = `https://hotelesdecameronweb.herokuapp.com/api/hotel/${this.paramId}`;
           let datosPost = {hotel_info_basica:this.hotel,hotel_info_detall:this.toObject(this.labels)};
           this.axios.put(uri, datosPost).then((response) => {
             this.msgsResponseAction.push(response.data.message);
             setTimeout(() => {
+              loader.hide();
               this.$router.push('/');
             }, 2500);
           }).catch((error) => {
+             loader.hide();
              this.errors = [];
-             console.log(error.response);
              let msgs=Object.values(JSON.parse(error.response.data.message));
              let errors = this.errors;
              msgs.forEach(function (datosMsg,key) {
@@ -219,21 +233,23 @@
       addNewHotel(){
         if (!this.errors.length){
           $("html, body").animate({ scrollTop: 0 }, "slow");
+          let loader = this.loading();
           let uri = `https://hotelesdecameronweb.herokuapp.com/api/hotel`;
           let datosPost = {hotel_info_basica:this.hotel,hotel_info_detall:this.toObject(this.labels)};
           this.axios.post(uri, datosPost).then((response) => {
             this.msgsResponseAction.push(response.data.message);
             setTimeout(() => {
+              loader.hide();
               this.$router.push('/');
             }, 2500);
           }).catch((error) => {
+             loader.hide();
              this.errors = [];
              let msgs=Object.values(JSON.parse(error.response.data.message));
              let errors = this.errors;
              msgs.forEach(function (datosMsg,key) {
                 errors.push(datosMsg);
              });
-
           });
         }else{
           $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -312,18 +328,20 @@
         }
       },
       onChangeTipoHab: function (event) {
+        let loader = this.loading();
         this.errors = [];
         if (this.hotel_detalle.tipoHab == '') {
           this.errors.push('Tipo de Habitacion Requerido.');
         }
         if (this.errors.length == 0){
           let id_hab = event.target.value;
-          let uri_habAcomd = '/api/habitAcomd?id_tipo_hab='+id_hab;
+          let uri_habAcomd = 'https://hotelesdecameronweb.herokuapp.com/api/habitAcomd?id_tipo_hab='+id_hab;
           this.axios.get(uri_habAcomd).then(response => {
             this.hotel_detalle.tipoHab_descrip =  this.tipoHab.find(objTiHab => objTiHab.id_tipo_hab == id_hab).descripcion_tipo_hab;
             this.habAcomd = this.filterTipoAcomod(response.data.data,id_hab);
           });
         }
+        loader.hide();
       },
       onChangeTipoAcomd: function (event) {
         const theTarget = event.target.options[event.target.options.selectedIndex].dataset;

@@ -54,9 +54,17 @@
             }
         },
         created() {
+            var app = this;
+            let loader = app.$loading.show({
+                // Optional parameters
+                container: app.fullPage ? null : app.$refs.formContainer,
+                canCancel: false,
+                onCancel: app.onCancel,
+            });
             let uri = 'https://hotelesdecameronweb.herokuapp.com/api/hotel';
             this.axios.get(uri).then(response => {
                 this.datos_hoteles = response.data.data;
+                loader.hide();
             });
         },
         methods: {
