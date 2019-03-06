@@ -55,12 +55,7 @@
         },
         created() {
             var app = this;
-            let loader = app.$loading.show({
-                // Optional parameters
-                container: app.fullPage ? null : app.$refs.formContainer,
-                canCancel: false,
-                onCancel: app.onCancel,
-            });
+            let loader = this.loading();
             let uri = 'https://hotelesdecameronweb.herokuapp.com/api/hotel';
             this.axios.get(uri).then(response => {
                 this.datos_hoteles = response.data.data;
@@ -68,6 +63,16 @@
             });
         },
         methods: {
+            loading(){
+                var app = this;
+                let loader = app.$loading.show({
+                // Optional parameters
+                container: app.fullPage ? null : app.$refs.formContainer,
+                canCancel: false,
+                onCancel: app.onCancel,
+                });
+                return loader;
+            },
             confirmRemove(id,nombreHotel){
                 let element = this; 
                 this.$dialog.confirm('Esta seguro de eliminar el Hotel '+nombreHotel+'?',{
@@ -93,9 +98,11 @@
                 });
             },
             removeHotel(id){
+                let loader = this.loading();
                 let uri_delete = `https://hotelesdecameronweb.herokuapp.com/api/hotel/${id}`;
                 this.axios.delete(uri_delete).then(response => {
                     this.datos_hoteles.splice(this.datos_hoteles.indexOf(id), 1);
+                    loader.hide();
                 });
             }
         }
