@@ -8,13 +8,13 @@
           </div>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item" style="width: 6em;">
-              <a class="flex-sm-fill text-sm-center nav-link" href="/api/hotel">Get Hotel</a>
+              <a class="flex-sm-fill text-sm-center nav-link" href="https://hotelesdecameronweb.herokuapp.com/api/hotel">Get Hotel</a>
             </li>
             <li class="nav-item" style="width: 8em;">
-              <a class="nav-link" href="/api/ciudades ">Get Ciudades</a>
+              <a class="nav-link" href="https://hotelesdecameronweb.herokuapp.com/api/ciudades">Get Ciudades</a>
             </li>
             <li class="nav-item" style="width: 8em;">
-              <a class="nav-link" href="/api/tipoHabitacion">Get Tipo Hab.</a>
+              <a class="nav-link" href="https://hotelesdecameronweb.herokuapp.com/api/tipoHabitacion">Get Tipo Hab.</a>
             </li>
           </ul>
       </nav>

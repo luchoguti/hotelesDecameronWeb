@@ -54,7 +54,7 @@
             }
         },
         created() {
-            let uri = '/api/hotel';
+            let uri = 'https://hotelesdecameronweb.herokuapp.com/api/hotel';
             this.axios.get(uri).then(response => {
                 this.datos_hoteles = response.data.data;
             });
@@ -85,7 +85,7 @@
                 });
             },
             removeHotel(id){
-                let uri_delete = `/api/hotel/${id}`;
+                let uri_delete = `https://hotelesdecameronweb.herokuapp.com/api/hotel/${id}`;
                 this.axios.delete(uri_delete).then(response => {
                     this.datos_hoteles.splice(this.datos_hoteles.indexOf(id), 1);
                 });

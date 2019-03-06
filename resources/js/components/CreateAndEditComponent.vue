@@ -196,7 +196,7 @@
       updateHotel(){
         if (!this.errors.length){
           $("html, body").animate({ scrollTop: 0 }, "slow");
-          let uri = `api/hotel/${this.paramId}`;
+          let uri = `https://hotelesdecameronweb.herokuapp.com/api/hotel/${this.paramId}`;
           let datosPost = {hotel_info_basica:this.hotel,hotel_info_detall:this.toObject(this.labels)};
           this.axios.put(uri, datosPost).then((response) => {
             this.msgsResponseAction.push(response.data.message);
@@ -219,7 +219,7 @@
       addNewHotel(){
         if (!this.errors.length){
           $("html, body").animate({ scrollTop: 0 }, "slow");
-          let uri = `api/hotel`;
+          let uri = `https://hotelesdecameronweb.herokuapp.com/api/hotel`;
           let datosPost = {hotel_info_basica:this.hotel,hotel_info_detall:this.toObject(this.labels)};
           this.axios.post(uri, datosPost).then((response) => {
             this.msgsResponseAction.push(response.data.message);
